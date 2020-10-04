@@ -77,25 +77,28 @@ new Vue({
 
 		unit: "C",
 
-		teplotaVal: 23,
-		pocitTeplotaVal: 21,
-		vlhkostVal: 35,
-		tlakVal: 1050,
-		srazkyVal: 4,
-		vitrVal: 25,
+		teplotaVal: "",
+		pocitTeplotaVal: "0",
+		vlhkostVal: "0",
+		tlakVal: "0",
+		srazkyVal: "0",
+		vitrVal: "0.0",
 
-		compasTurn: 45,
+		compasTurn: "0",
 
 		actualMoonPhase: 7,
 		moonPhase: ["0", "30", "60", "90", "120", "180", "240", "270", "300", "330"],
+		moonFullness: "0",
 
-		sunsetTime: "21:35",
-		sunriseTime: "6:45",
-
+		sunsetTime: "",
+		sunriseTime: "",
+		
 	},
 
 	created: function () {
 		this.fetchDatumCas();
+		this.fromXLM();
+		//this.fetchSunAPIdate();
 	},
 	mounted: function () {
 		this.loadMap();
@@ -238,8 +241,8 @@ new Vue({
 			var data = {
 				"1": "49.2010881N, 16.6206119E",
 				"2": "49.1985644N, 16.6154619E",
-				"3": "49.2002189N, 16.6081558E",
-				"4": "49.2041444N, 16.6063856E"
+				"3": "49.1999875N, 16.6095411E",
+				"4": "49.2034436N, 16.6069339E"
 			};
 			var znacky = [];
 			var souradnice = [];
@@ -247,7 +250,7 @@ new Vue({
 			for (var name in data) {
 				var coord = SMap.Coords.fromWGS84(data[name]);
 				var options = {
-					url: 'Pics/'+ obr +'.png'
+					url: 'Pics/' + obr + '.png'
 				}
 				var znacka = new SMap.Marker(coord, null, options);
 				souradnice.push(coord);
@@ -285,6 +288,95 @@ new Vue({
 			this.kamera3 = false;
 			this.kamera4 = false;
 		},
+
+		fromXLM() {
+			axios.get('weewx/rss.xml')
+			.then(response => {
+				var xmlText = response.data;
+				var parser = new DOMParser(),
+				xmlDOC = parser.parseFromString(xmlText, "text/xml");
+				var teplotaValTest = ((xmlDOC.getElementsByTagName)("outsideTemperature")[0].childNodes[0].nodeValue).slice(0, -2);
+				if (teplotaValTest.includes("N")){
+					this.teplotaVal = "-";
+				} else {this.teplotaVal = teplotaValTest}
+				this.pocitTeplotaVal = ((xmlDOC.getElementsByTagName)("windchill")[0].childNodes[0].nodeValue).slice(0, -2);
+				var vlhkostValTest = (xmlDOC.getElementsByTagName)("humidity")[0].childNodes[0].nodeValue;
+				if (vlhkostValTest.includes("N/A")){
+					this.vlhkostVal = "-";
+				} else {this.vlhkostVal = vlhkostValTest}
+				this.tlakVal = (xmlDOC.getElementsByTagName)("pressure")[0].childNodes[0].nodeValue;
+				this.srazkyVal = (xmlDOC.getElementsByTagName)("rain")[0].childNodes[0].nodeValue;
+				this.vitrVal = (xmlDOC.getElementsByTagName)("wind")[0].childNodes[0].nodeValue;
+				this.compasTurn = ((xmlDOC.getElementsByTagName)("windFrom")[0].childNodes[0].nodeValue).slice(0,-1);
+				this.sunriseTime = (xmlDOC.getElementsByTagName)("sunrise")[0].childNodes[0].nodeValue;
+				this.sunsetTime = (xmlDOC.getElementsByTagName)("sunset")[0].childNodes[0].nodeValue;
+				var moonPhase = (xmlDOC.getElementsByTagName)("moonPhase")[0].childNodes[0].nodeValue;
+				switch(moonPhase){
+					case "New Moon":
+					this.moonPhase = "0";
+					brake;
+					case "Young Moon":
+					this.moonPhase = "30";
+					brake;
+					case "Waxing Crescent":
+					this.moonPhase = "60";
+					brake;
+					case "Waxing Quarter":
+					this.moonPhase = "90";
+					brake;
+					case "Waxing Gibbous":
+					this.moonPhase = "120";
+					brake;
+					case "Full Moon":
+					this.moonPhase = "180";
+					brake;
+					case "Wanning Gibbous":
+					this.moonPhase = "240";
+					brake;
+					case "Wanning Quarter":
+					this.moonPhase = "270";
+					brake;
+					case "Wanning Crescent":
+					this.moonPhase = "300";
+					brake;
+					case "Old Moon":
+					this.moonPhase = "330";
+					brake;	
+				} 
+				this.moonFullness = (xmlDOC.getElementsByTagName)("moonFullness")[0].childNodes[0].nodeValue;
+		
+			});
+		},
+
+		/*fetchSunAPIdate() {
+			fetch('sunAPI.txt')
+				.then(response => response.text())
+				.then(text => console.log(text))
+		},*/
+
+		/*sunAPI() {
+			//if (this.sunAPIdate = Date())
+			//const API_KEY = '88f38649574f4d4d85fefb5012c72a2e';
+
+			//const API = `https://api.ipgeolocation.io/astronomy?apiKey=${API_KEY}&lat=49.2034436&lng=16.6069339`;
+			//fetch(API).then(response => response.data())
+			//.then(data => console.log(data))
+			
+			var today = new Date().toISOString();
+			const lat = 49.2034436;
+			const lng = 16.6069339;
+			fetch(`https://api.stormglass.io/v2/astronomy/point?lat=${lat}&lng=${lng}`, {
+				headers: {
+					'Authorization': '1c2f981a-04cf-11eb-8aa5-0242ac130002-1c2f98ce-04cf-11eb-8aa5-0242ac130002'
+				}
+			}).then((response) => response.json())
+				.then((jsonData) => {
+					console.log(jsonData);
+				}
+			);
+		}*/
+
+
 
 		//		resized() {
 		//			if (this.onMobile){

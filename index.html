@@ -111,15 +111,15 @@
   			</tr>
   			<tr>
   	  			<td>{{ vlhkost[currLang] }}</td>
-   	 			<td>40%</td>
+   	 			<td>{{ vlhkostVal }}</td>
  	 		</tr>
 			<tr>
   	  			<td>{{ tlak[currLang] }}</td>
-   	 			<td>1050 mBar</td>
+   	 			<td>{{ tlakVal }}</td>
  	 		</tr>
 			<tr>
   	  			<td>{{ srazky[currLang] }}</td>
-   	 			<td>5 mm</td>
+   	 			<td>{{ srazkyVal }}</td>
  	 		</tr>
 			</table>
 
@@ -133,7 +133,7 @@
 			<table>
 			<tr>
   	  			<td>{{ wind[currLang] }}</td>
-   	 			<td>25 m/s</td>
+   	 			<td>{{ vitrVal }}</td>
  	 		</tr>
 			</table>
    	    	</div>
@@ -145,7 +145,8 @@
 			</div>
 			<div class="meteoSunMoonBlock">
 			 <img class="imgMoon" v-bind:src="`Pics/moon${moonPhase[actualMoonPhase]}.jpg`">
-			 <div> {{ moonPhaseName[currLang][actualMoonPhase] }} </div>
+             <div> {{ moonPhaseName[currLang][actualMoonPhase] }} </div>
+             <div> {{ moonFullness }}%</div>
 			</div>
 			<div class="meteoSunMoonBlock">
 			 <img class="imgSun" src="Pics/sunrise.png">
@@ -166,6 +167,7 @@
 
 <footer>
     <p> footer </p>
+    <a href="https://www.tugendhat.eu/">Tugendhat</a>
 </footer>
 
 </html>
