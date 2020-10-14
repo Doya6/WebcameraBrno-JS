@@ -3,7 +3,7 @@
 $sourceDir = 'campics';
 $files = glob($sourceDir .'/*.jpg');
 $now = time();
-$pocetDnu = 1;
+$pocetDnu = 3;
 $pocetDnuSec =  $pocetDnu * 86400;
 
 usort($files, function($a, $b) {
@@ -18,7 +18,7 @@ echo "<strong> now -$pocetDnu dnu: </strong>" . date("d.m.Y H:i:s", $now - $poce
 
 echo "<strong> k vymazani: </strong><br>";
 foreach ($files as &$file) {
-	if (filemtime($file) > ($now - $pocetDnuSec)){
+	if (filemtime($file) < ($now - $pocetDnuSec)){
 		echo date("d.m.Y H:i:s", filemtime($file)) . "<br>";
 //		unlink ($file);
 	}

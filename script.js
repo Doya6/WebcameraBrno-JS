@@ -38,7 +38,7 @@ new Vue({
 		},
 
 		pocitteplota: {
-			en: 'Wind Chill Temperature:',
+			en: 'Wind Chill:',
 			cz: 'Pocitová teplota:',
 		},
 
@@ -55,6 +55,10 @@ new Vue({
 		srazky: {
 			en: 'Rain:',
 			cz: 'Srážky:',
+		},
+		srazkyZaDen: {
+			en: '/day',
+			cz: '/den',
 		},
 		wind: {
 			en: 'Wind:',
@@ -92,7 +96,7 @@ new Vue({
 
 		sunsetTime: "",
 		sunriseTime: "",
-		
+
 	},
 
 	created: function () {
@@ -129,7 +133,8 @@ new Vue({
 			if (this.unit === 'F') {
 				return `${Math.round(this.pocitTeplotaVal * 1.8 + 32)} °F`;
 			} return `${this.pocitTeplotaVal} °C`;
-		}
+		},
+
 	},
 
 	methods: {
@@ -291,61 +296,61 @@ new Vue({
 
 		fromXLM() {
 			axios.get('weewx/rss.xml')
-			.then(response => {
-				var xmlText = response.data;
-				var parser = new DOMParser(),
-				xmlDOC = parser.parseFromString(xmlText, "text/xml");
-				var teplotaValTest = ((xmlDOC.getElementsByTagName)("outsideTemperature")[0].childNodes[0].nodeValue).slice(0, -2);
-				if (teplotaValTest.includes("N")){
-					this.teplotaVal = "-";
-				} else {this.teplotaVal = teplotaValTest}
-				this.pocitTeplotaVal = ((xmlDOC.getElementsByTagName)("windchill")[0].childNodes[0].nodeValue).slice(0, -2);
-				var vlhkostValTest = (xmlDOC.getElementsByTagName)("humidity")[0].childNodes[0].nodeValue;
-				if (vlhkostValTest.includes("N/A")){
-					this.vlhkostVal = "-";
-				} else {this.vlhkostVal = vlhkostValTest}
-				this.tlakVal = (xmlDOC.getElementsByTagName)("pressure")[0].childNodes[0].nodeValue;
-				this.srazkyVal = (xmlDOC.getElementsByTagName)("rain")[0].childNodes[0].nodeValue;
-				this.vitrVal = (xmlDOC.getElementsByTagName)("wind")[0].childNodes[0].nodeValue;
-				this.compasTurn = ((xmlDOC.getElementsByTagName)("windFrom")[0].childNodes[0].nodeValue).slice(0,-1);
-				this.sunriseTime = (xmlDOC.getElementsByTagName)("sunrise")[0].childNodes[0].nodeValue;
-				this.sunsetTime = (xmlDOC.getElementsByTagName)("sunset")[0].childNodes[0].nodeValue;
-				var moonPhase = (xmlDOC.getElementsByTagName)("moonPhase")[0].childNodes[0].nodeValue;
-				switch(moonPhase){
-					case "New Moon":
-					this.moonPhase = "0";
-					brake;
-					case "Young Moon":
-					this.moonPhase = "30";
-					brake;
-					case "Waxing Crescent":
-					this.moonPhase = "60";
-					brake;
-					case "Waxing Quarter":
-					this.moonPhase = "90";
-					brake;
-					case "Waxing Gibbous":
-					this.moonPhase = "120";
-					brake;
-					case "Full Moon":
-					this.moonPhase = "180";
-					brake;
-					case "Wanning Gibbous":
-					this.moonPhase = "240";
-					brake;
-					case "Wanning Quarter":
-					this.moonPhase = "270";
-					brake;
-					case "Wanning Crescent":
-					this.moonPhase = "300";
-					brake;
-					case "Old Moon":
-					this.moonPhase = "330";
-					brake;	
-				} 
-				this.moonFullness = (xmlDOC.getElementsByTagName)("moonFullness")[0].childNodes[0].nodeValue;
-		
-			});
+				.then(response => {
+					var xmlText = response.data;
+					var parser = new DOMParser(),
+						xmlDOC = parser.parseFromString(xmlText, "text/xml");
+					var teplotaValTest = ((xmlDOC.getElementsByTagName)("outsideTemperature")[0].childNodes[0].nodeValue).slice(0, -2);
+					if (teplotaValTest.includes("N")) {
+						this.teplotaVal = "-";
+					} else { this.teplotaVal = teplotaValTest }
+					this.pocitTeplotaVal = ((xmlDOC.getElementsByTagName)("windchill")[0].childNodes[0].nodeValue).slice(0, -2);
+					var vlhkostValTest = (xmlDOC.getElementsByTagName)("humidity")[0].childNodes[0].nodeValue;
+					if (vlhkostValTest.includes("N/A")) {
+						this.vlhkostVal = "-";
+					} else { this.vlhkostVal = vlhkostValTest }
+					this.tlakVal = (xmlDOC.getElementsByTagName)("pressure")[0].childNodes[0].nodeValue;
+					this.srazkyVal = ((xmlDOC.getElementsByTagName)("rain")[0].childNodes[0].nodeValue)//.slice(0, -2);
+					this.vitrVal = (xmlDOC.getElementsByTagName)("wind")[0].childNodes[0].nodeValue;
+					this.compasTurn = ((xmlDOC.getElementsByTagName)("windFrom")[0].childNodes[0].nodeValue).slice(0, -1);
+					this.sunriseTime = (xmlDOC.getElementsByTagName)("sunrise")[0].childNodes[0].nodeValue;
+					this.sunsetTime = (xmlDOC.getElementsByTagName)("sunset")[0].childNodes[0].nodeValue;
+					var moonPhase = (xmlDOC.getElementsByTagName)("moonPhase")[0].childNodes[0].nodeValue;
+					switch (moonPhase) {
+						case "New Moon":
+							this.moonPhase = "0";
+							brake;
+						case "Young Moon":
+							this.moonPhase = "30";
+							brake;
+						case "Waxing Crescent":
+							this.moonPhase = "60";
+							brake;
+						case "Waxing Quarter":
+							this.moonPhase = "90";
+							brake;
+						case "Waxing Gibbous":
+							this.moonPhase = "120";
+							brake;
+						case "Full Moon":
+							this.moonPhase = "180";
+							brake;
+						case "Wanning Gibbous":
+							this.moonPhase = "240";
+							brake;
+						case "Wanning Quarter":
+							this.moonPhase = "270";
+							brake;
+						case "Wanning Crescent":
+							this.moonPhase = "300";
+							brake;
+						case "Old Moon":
+							this.moonPhase = "330";
+							brake;
+					}
+					this.moonFullness = (xmlDOC.getElementsByTagName)("moonFullness")[0].childNodes[0].nodeValue;
+
+				});
 		},
 
 		/*fetchSunAPIdate() {

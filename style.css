@@ -310,6 +310,9 @@ td:nth-child(2){
 }
 
 footer{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
     height: 50px;
     width: 100%;
     border: 1px solid white;
@@ -320,6 +323,9 @@ footer{
 }
 footer p{
     padding-top: 3px;
+}
+footer a{
+    color: white;
 }
 .red{
     color: red;
