@@ -31,6 +31,14 @@
         </div>    
     </div>
 
+
+    <div v-if='show' @click="show = false">
+        <div class="imageBigArea">
+          <img v-bind:src="`http://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[`${imgIndex}`]}`" v-bind:height="`${window.height}`- 20" v-bind:max-width="`${window.width}`">
+        </div>        
+    </div>
+
+    <div v-if='!show'>
     <div class="timerBckGrnd">
         <div class="timer">
             <p id="casPorizeniSnimku"> {{ message[currLang] }} {{ datumCas[datumCasLang[currLang]] }}</p> 
@@ -43,7 +51,12 @@
                 <img v-if="kamera1" class="hlavSnimkuIcon" id="S1" src="Pics/triaUp.png"> 
 		<img v-else class="hlavSnimkuIcon" id="S1" src="Pics/triaDown.png">    
             </div>
-                <img v-if="kamera1 || !onMobile" class="snimek" id="s1" v-bind:src="`campics/${actPics[0]}`" alt="pohled 1">
+                
+                <!-- <img v-if="kamera1 || !onMobile" class="snimek" id="s1" src="lastpics/" ${actPics[0]}" alt="pohled 1"> -->
+                <img v-if="kamera1 || !onMobile" class="snimek" id="s1" v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[3]}`">
+                
+                <!-- <img v-if="kamera1 || !onMobile" class="snimek" id="s1" src="http://89.103.181.53:83/image3?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 1">
+                 -->
                 <div class="snimekPopis">
                     <p v-if="kamera1 || !onMobile">#1</p>
                 </div>
@@ -54,18 +67,27 @@
                 <img v-if="kamera2" class="hlavSnimkuIcon" id="S2" src="Pics/triaUp.png">
 		<img v-else class="hlavSnimkuIcon" id="S2" src="Pics/triaDown.png">    
             </div>
-                <img v-if="kamera2 || !onMobile" class="snimek" id="s2" v-bind:src="`campics/${actPics[1]}`" alt="pohled 2">
+
+            <img v-if="kamera2 || !onMobile" class="snimek" id="s2" v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[2]}`">
+                
+                <!-- <img v-if="kamera2 || !onMobile" class="snimek" id="s2" src="http://89.103.181.53:83/image2?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 2">
+                 -->
                 <div class="snimekPopis">
                     <p v-if="kamera2 || !onMobile">#2</p>
                 </div>
         </div>
+
         <div class="snimekBlok">
             <div v-on:click="schovej(3)" id="snimek3" class="hlavickaSnimku">
                 <p>{{ kamera[currLang] + " #3"}}</p> 
                 <img v-if="kamera3" class="hlavSnimkuIcon" id="S3" src="Pics/triaUp.png">
 		<img v-else class="hlavSnimkuIcon" id="S3" src="Pics/triaDown.png">    
             </div>
-                <img v-if="kamera3 || !onMobile" class="snimek" id="s3" v-bind:src="`campics/${actPics[2]}`" alt="pohled 3">
+                
+            <img v-if="kamera3 || !onMobile" class="snimek" id="s3" v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[1]}`">
+                
+                <!-- <img v-if="kamera3 || !onMobile" class="snimek" id="s3" src="http://89.103.181.53:83/image4?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 3">
+                 -->
                 <div class="snimekPopis">
                     <p v-if="kamera3 || !onMobile">#3</p>
                 </div>
@@ -76,14 +98,18 @@
                 <img v-if="kamera4" class="hlavSnimkuIcon" id="S4" src="Pics/triaUp.png">
 		<img v-else class="hlavSnimkuIcon" id="S4" src="Pics/triaDown.png">    
             </div>
-                <img v-show="kamera4 || !onMobile" class="snimek" id="s4" v-bind:src="`campics/${actPics[3]}`" alt="pohled 4">
+                
+            <img v-if="kamera4 || !onMobile" class="snimek" id="s4" v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[0]}`">
+                
+                <!-- <img v-if="kamera4 || !onMobile" class="snimek" id="s4" src="http://89.103.181.53:83/image1?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 4">
+                 -->
                 <div class="snimekPopis">
                     <p v-if="kamera4 || !onMobile">#4</p>
                 </div>
         </div>
 
     </div> <!--- konec Snimky --->
-    
+    </div>
     <div class="mapa_meteoBlok">
 
         <div class="mapaBlok">

@@ -97,13 +97,25 @@ new Vue({
 		sunsetTime: "",
 		sunriseTime: "",
 
+		show: false,
+		imgIndex: '',
+		window: {
+			width: 0,
+			height: 0
+		  }
+
 	},
 
 	created: function () {
 		this.fetchDatumCas();
 		this.fromXLM();
+		window.addEventListener('resize', this.handleResize);
+    	this.handleResize();
 		//this.fetchSunAPIdate();
 	},
+	destroyed() {
+        window.removeEventListener('resize', this.handleResize);
+    },
 	mounted: function () {
 		this.loadMap();
 
@@ -139,17 +151,27 @@ new Vue({
 
 	methods: {
 		fetchDatumCas: function () {
-			axios.post('/WebcameraBrno/dateLast4Pics.php')
+			axios.post('http://mytestwww.tode.cz/WebcameraBrno/dateLast4Pics.php')
 				.then(response => {
 					this.datumCas = (response.data);
 				}); this.fetchPicsName();
 
 		},
 		fetchPicsName: function () {
-			axios.post('/WebcameraBrno/last4PicsName.php')
+			axios.post('http://mytestwww.tode.cz/WebcameraBrno/last4PicsName.php')
 				.then(response => {
+					console.log(response.data);
 					this.actPics = (response.data);
 				});
+		},
+		handleResize() {
+			this.window.width = window.innerWidth;
+			this.window.height = window.innerHeight;
+		},
+
+		showBig(index){
+			this.imgIndex = index;
+			this.show = true;
 		},
 
 		switchEN() {
@@ -270,7 +292,6 @@ new Vue({
 			}
 
 		},
-
 
 		handlerOrientationChange() {
 			switch (window.screen.orientation.type) {

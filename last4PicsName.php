@@ -1,5 +1,8 @@
 <?php
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+
 $sourceDir = 'campics';
 $targetDir = 'lastpics';
 $files = glob($sourceDir .'/*.jpg');
