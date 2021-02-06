@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,191 +13,174 @@
     <script type="text/javascript" src="https://api.mapy.cz/loader.js"></script>
     <script type="text/javascript">Loader.load()</script>
 </head>
+
 <body>
-
-<div id="app">
-
-    <div class="horniLista">
-        <div class="logo"> <img src="Pics/logo.jpg" alt="Logo"></div>
-
-        <div class="langSelector">
-            <div class="langCZ">
-                <p v-on:click="switchCZ" v-bind:class='czBarva' id="cz">CZ</p>
-                <p v-on:click="switchDegC" v-bind:class='DegC' id="stC">°C</p>
-            </div>
-            <div class="langEN">
-                <p v-on:click="switchEN" v-bind:class='enBarva' id="en">EN</p>
-                <p v-on:click="switchDegF" v-bind:class='DegF' id="stF">°F</p>
-            </div>
-        </div>    
-    </div>
-
-
-    <div v-if='show' @click="show = false">
-        <div class="imageBigArea">
-          <img v-bind:src="`http://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[`${imgIndex}`]}`" v-bind:height="`${window.height}`- 20" v-bind:max-width="`${window.width}`">
-        </div>        
-    </div>
-
-    <div v-if='!show'>
-    <div class="timerBckGrnd">
-        <div class="timer">
-            <p id="casPorizeniSnimku"> {{ message[currLang] }} {{ datumCas[datumCasLang[currLang]] }}</p> 
-        </div>
-    </div>    
-    <div class="snimky">
-        <div class="snimekBlok">
-            <div v-on:click="schovej(1)" id="snimek1" class="hlavickaSnimku">
-                <p>{{ kamera[currLang] + " #1"}}</p> 
-                <img v-if="kamera1" class="hlavSnimkuIcon" id="S1" src="Pics/triaUp.png"> 
-		<img v-else class="hlavSnimkuIcon" id="S1" src="Pics/triaDown.png">    
-            </div>
-                
-                <!-- <img v-if="kamera1 || !onMobile" class="snimek" id="s1" src="lastpics/" ${actPics[0]}" alt="pohled 1"> -->
-                <img v-if="kamera1 || !onMobile" class="snimek" id="s1" v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[3]}`">
-                
-                <!-- <img v-if="kamera1 || !onMobile" class="snimek" id="s1" src="http://89.103.181.53:83/image3?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 1">
-                 -->
-                <div class="snimekPopis">
-                    <p v-if="kamera1 || !onMobile">#1</p>
+    <div id="app">
+        <div class="horniLista">
+            <div class="logo"> <img src="Pics/logo.jpg" alt="Logo"></div>
+            <div class="langSelector">
+                <div class="langCZ">
+                    <p v-on:click="switchCZ" v-bind:class='czBarva' id="cz">CZ</p>
+                    <p v-on:click="switchDegC" v-bind:class='DegC' id="stC">°C</p>
                 </div>
-        </div>
-        <div class="snimekBlok">
-            <div v-on:click="schovej(2)" id="snimek2" class="hlavickaSnimku">
-                <p>{{ kamera[currLang] + " #2"}}</p> 
-                <img v-if="kamera2" class="hlavSnimkuIcon" id="S2" src="Pics/triaUp.png">
-		<img v-else class="hlavSnimkuIcon" id="S2" src="Pics/triaDown.png">    
-            </div>
-
-            <img v-if="kamera2 || !onMobile" class="snimek" id="s2" v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[2]}`">
-                
-                <!-- <img v-if="kamera2 || !onMobile" class="snimek" id="s2" src="http://89.103.181.53:83/image2?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 2">
-                 -->
-                <div class="snimekPopis">
-                    <p v-if="kamera2 || !onMobile">#2</p>
+                <div class="langEN">
+                    <p v-on:click="switchEN" v-bind:class='enBarva' id="en">EN</p>
+                    <p v-on:click="switchDegF" v-bind:class='DegF' id="stF">°F</p>
                 </div>
-        </div>
-
-        <div class="snimekBlok">
-            <div v-on:click="schovej(3)" id="snimek3" class="hlavickaSnimku">
-                <p>{{ kamera[currLang] + " #3"}}</p> 
-                <img v-if="kamera3" class="hlavSnimkuIcon" id="S3" src="Pics/triaUp.png">
-		<img v-else class="hlavSnimkuIcon" id="S3" src="Pics/triaDown.png">    
             </div>
-                
-            <img v-if="kamera3 || !onMobile" class="snimek" id="s3" v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[1]}`">
-                
-                <!-- <img v-if="kamera3 || !onMobile" class="snimek" id="s3" src="http://89.103.181.53:83/image4?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 3">
-                 -->
-                <div class="snimekPopis">
-                    <p v-if="kamera3 || !onMobile">#3</p>
-                </div>
         </div>
-        <div class="snimekBlok">
-            <div v-on:click="schovej(4)" id="snimek4" class="hlavickaSnimku">
-                <p>{{ kamera[currLang] + " #4"}}</p> 
-                <img v-if="kamera4" class="hlavSnimkuIcon" id="S4" src="Pics/triaUp.png">
-		<img v-else class="hlavSnimkuIcon" id="S4" src="Pics/triaDown.png">    
+        <div v-if='show' @click="show = false">
+            <div class="imageBigArea">
+                <img v-bind:src="`http://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[`${imgIndex}`]}`"
+                    v-bind:height="`${window.height}`- 20" v-bind:max-width="`${window.width}`">
             </div>
-                
-            <img v-if="kamera4 || !onMobile" class="snimek" id="s4" v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[0]}`">
-                
-                <!-- <img v-if="kamera4 || !onMobile" class="snimek" id="s4" src="http://89.103.181.53:83/image1?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 4">
-                 -->
-                <div class="snimekPopis">
-                    <p v-if="kamera4 || !onMobile">#4</p>
-                </div>
         </div>
+        <div v-if='!show'>
+            <div class="timerBckGrnd">
+                <div class="timer">
+                    <p id="casPorizeniSnimku"> {{ message[currLang] }} {{ datumCas[datumCasLang[currLang]] }}</p>
+                </div>
+            </div>
+            <div class="snimky">
+                <div class="snimekBlok">
+                    <div v-on:click="schovej(1)" id="snimek1" class="hlavickaSnimku">
+                        <p>{{ kamera[currLang] + " #1"}}</p>
+                        <img v-if="kamera1" class="hlavSnimkuIcon" id="S1" src="Pics/triaUp.png">
+                        <img v-else class="hlavSnimkuIcon" id="S1" src="Pics/triaDown.png">
+                    </div>
+                    <!-- <img v-if="kamera1 || !onMobile" class="snimek" id="s1" src="lastpics/" ${actPics[0]}" alt="pohled 1"> -->
+                    <img v-if="kamera1 || !onMobile" class="snimek" id="s1"
+                        v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[3]}`">
 
-    </div> <!--- konec Snimky --->
+                    <!-- <img v-if="kamera1 || !onMobile" class="snimek" id="s1" src="http://89.103.181.53:83/image3?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 1">
+                 -->
+                    <div class="snimekPopis">
+                        <p v-if="kamera1 || !onMobile">#1</p>
+                    </div>
+                </div>
+                <div class="snimekBlok">
+                    <div v-on:click="schovej(2)" id="snimek2" class="hlavickaSnimku">
+                        <p>{{ kamera[currLang] + " #2"}}</p>
+                        <img v-if="kamera2" class="hlavSnimkuIcon" id="S2" src="Pics/triaUp.png">
+                        <img v-else class="hlavSnimkuIcon" id="S2" src="Pics/triaDown.png">
+                    </div>
+                    <img v-if="kamera2 || !onMobile" class="snimek" id="s2"
+                        v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[2]}`">
+
+                    <!-- <img v-if="kamera2 || !onMobile" class="snimek" id="s2" src="http://89.103.181.53:83/image2?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 2">
+                 -->
+                    <div class="snimekPopis">
+                        <p v-if="kamera2 || !onMobile">#2</p>
+                    </div>
+                </div>
+                <div class="snimekBlok">
+                    <div v-on:click="schovej(3)" id="snimek3" class="hlavickaSnimku">
+                        <p>{{ kamera[currLang] + " #3"}}</p>
+                        <img v-if="kamera3" class="hlavSnimkuIcon" id="S3" src="Pics/triaUp.png">
+                        <img v-else class="hlavSnimkuIcon" id="S3" src="Pics/triaDown.png">
+                    </div>
+                    <img v-if="kamera3 || !onMobile" class="snimek" id="s3"
+                        v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[1]}`">
+
+                    <!-- <img v-if="kamera3 || !onMobile" class="snimek" id="s3" src="http://89.103.181.53:83/image4?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 3">
+                 -->
+                    <div class="snimekPopis">
+                        <p v-if="kamera3 || !onMobile">#3</p>
+                    </div>
+                </div>
+                <div class="snimekBlok">
+                    <div v-on:click="schovej(4)" id="snimek4" class="hlavickaSnimku">
+                        <p>{{ kamera[currLang] + " #4"}}</p>
+                        <img v-if="kamera4" class="hlavSnimkuIcon" id="S4" src="Pics/triaUp.png">
+                        <img v-else class="hlavSnimkuIcon" id="S4" src="Pics/triaDown.png">
+                    </div>
+                    <img v-if="kamera4 || !onMobile" class="snimek" id="s4"
+                        v-bind:src="`https://mytestwww.tode.cz/WebcameraBrno/campics/${actPics[0]}`">
+
+                    <!-- <img v-if="kamera4 || !onMobile" class="snimek" id="s4" src="http://89.103.181.53:83/image1?res=full&x0=X0&y0=Y0&x1=X1&y1=Y1&quality=10&doublescan=0$id=now()" alt="pohled 4">
+                 -->
+                    <div class="snimekPopis">
+                        <p v-if="kamera4 || !onMobile">#4</p>
+                    </div>
+                </div>
+            </div>
+            <!--- konec Snimky --->
+        </div>
+        <div class="mapa_meteoBlok">
+            <div class="mapaBlok">
+                <div class="hlavickaMapa">
+                    <p>{{ smerpohledu[currLang] }}</p>
+                </div>
+                <div id="m" class="mapa"></div>
+            </div>
+            <div class="meteoBlok">
+                <div class="hlavickaMeteo">
+                    <p>METEODATA</p>
+                </div>
+                <div class="meteoBody">
+                    <div class="meteoHodnoty">
+                        <table>
+                            <tr>
+                                <td>{{ teplota[currLang] }}</td>
+                                <td>{{ teplVal }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ pocitteplota[currLang] }}</td>
+                                <td>{{ pocTeplVal }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ vlhkost[currLang] }}</td>
+                                <td>{{ vlhkostVal }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ tlak[currLang] }}</td>
+                                <td>{{ tlakVal }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ srazky[currLang] }}</td>
+                                <td>{{ srazkyVal }} <!--<span>{{srazkyZaDen[currLang]}}</span>--></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="meteoCompas">
+                        <div class="img-container">
+                            <img class="compasImg" v-bind:style="compasRotate" src="Pics/compasRedSmall.jpg"
+                                alt="compas">
+                        </div>
+                        <table>
+                            <tr>
+                                <td>{{ wind[currLang] }}</td>
+                                <td>{{ vitrVal }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="meteoSunMoon">
+                        <div class="meteoSunMoonBlock">
+                            <img class="imgSun" src="Pics/sunrise.png">
+                            <div> {{ sunriseTime }} </div>
+                        </div>
+                        <div class="meteoSunMoonBlock">
+                            <img class="imgMoon" v-bind:src="`Pics/moon${moonPhase[actualMoonPhase]}.jpg`">
+                            <div> {{ moonPhaseName[currLang][actualMoonPhase] }} </div>
+                            <!-- <div> {{ moonFullness }}%</div> -->
+                        </div>
+                        <div class="meteoSunMoonBlock">
+                            <img class="imgSun" src="Pics/sunset.png">
+                            <div> {{ sunsetTime }} </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="mapa_meteoBlok">
-
-        <div class="mapaBlok">
-            <div class="hlavickaMapa">
-                <p>{{ smerpohledu[currLang] }}</p>   
-            </div>
-		<div id="m" class="mapa"></div>
-        </div>
-
-
-        <div class="meteoBlok">
-            <div class="hlavickaMeteo">
-                <p>METEODATA</p>   
-            </div>
- 	    <div class="meteoBody">
-	    	<div class="meteoHodnoty">
-			<table>
-  			<tr>
-	    			<td>{{ teplota[currLang] }}</td>
-	    			<td>{{ teplVal }}</td>
-	  		</tr>
-  			<tr>
-   				<td>{{ pocitteplota[currLang] }}</td>
-    				<td>{{ pocTeplVal }}</td>
-  			</tr>
-  			<tr>
-  	  			<td>{{ vlhkost[currLang] }}</td>
-   	 			<td>{{ vlhkostVal }}</td>
- 	 		</tr>
-			<tr>
-  	  			<td>{{ tlak[currLang] }}</td>
-   	 			<td>{{ tlakVal }}</td>
- 	 		</tr>
-			<tr>
-  	  			<td>{{ srazky[currLang] }}</td>
-   	 			<td>{{ srazkyVal }} <span>{{srazkyZaDen[currLang]}}</span></td>
- 	 		</tr>
-			</table>
-
-		</div>
-	    	<div class="meteoCompas">
-
-			<div class="img-container">
-            	       		<img class="compasImg" v-bind:style="compasRotate" src="Pics/compasRedSmall.jpg" alt="compas">
-			</div>
-
-			<table>
-			<tr>
-  	  			<td>{{ wind[currLang] }}</td>
-   	 			<td>{{ vitrVal }}</td>
- 	 		</tr>
-			</table>
-   	    	</div>
-		
-	    	<div class="meteoSunMoon"> 
-			<div class="meteoSunMoonBlock">
-			 <img class="imgSun" src="Pics/sunset.png">
-			 <div> {{ sunsetTime }} </div>
-			</div>
-			<div class="meteoSunMoonBlock">
-			 <img class="imgMoon" v-bind:src="`Pics/moon${moonPhase[actualMoonPhase]}.jpg`">
-             <div> {{ moonPhaseName[currLang][actualMoonPhase] }} </div>
-             <div> {{ moonFullness }}%</div>
-			</div>
-			<div class="meteoSunMoonBlock">
-			 <img class="imgSun" src="Pics/sunrise.png">
-			 <div> {{ sunriseTime }} </div>
-			</div>
-		</div>
-
-	    </div>
-        </div>
-
-    </div>
-
-</div>
+    
+    <footer>
+        <p> Provozovatel</p>
+        <a href="https://www.tugendhat.eu/" target="_blank">Vila Tugendhat</a>
+        <a href="https://gotobrno.cz/" target="_blank">GoToBrno</a>
+    </footer>
 
     <script src="script.js"></script>
-   
+
 </body>
-
-<footer>
-    <p> Provozovatel</p>
-    <a href="https://www.tugendhat.eu/" target="_blank">Tugendhat</a>
-    <a href="https://gotobrno.cz/" target="_blank">GoToBrno</a>
-    
-    
-</footer>
-
 </html>

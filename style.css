@@ -16,14 +16,22 @@
 }
 
 html {
+    box-sizing: border-box;
     font-size: 100%; /* = 16px */
     font-family: 'gibsonsemibold';
     min-width: 350px;
     }
-body, p, img, div{
+*, ::after, ::before { box-sizing: inherit; }
+body {
+    text-rendering: optimizeLegibility;
     margin: 0;
     padding: 0;
-}       
+}
+p, img, div{
+    margin: 0;
+    padding: 0;
+} 
+      
 .horniLista{
     position: fixed;
     top: 0;
@@ -83,14 +91,14 @@ body, p, img, div{
     margin-top: 60px;
     display: flex;
     justify-content: center;
-    height: 5vw;
+    height: 35px;
     background-color: #0154CE;
 
 }
 .timer{
     flex: 1 1 35%;
-    max-width: 60%;
-    height: 3vw;
+    max-width: 90%;
+    height: 30px;
     border-radius: 0 0 20px 20px;
     border-left: 1px solid white;
     border-right: 1px solid white;
@@ -98,8 +106,8 @@ body, p, img, div{
     font-family: 'gibsonlight';
 }
 .timer p{
-    padding-top: 1%; 
-    font-size: 2vw;
+    padding-top: 9px; 
+    font-size: 12px;
     text-align: center;
     color: white;
 }
@@ -193,7 +201,7 @@ body, p, img, div{
     align-items: center;
 }
 .meteoHodnoty table{
-    flex-basis:90%;
+    flex-basis:100%;
     
 }
 td{
@@ -259,11 +267,11 @@ td:nth-child(2){
     margin: 2%;
 }   
 .imgSun{
-    width: 35%;
+    height: 65px;
 
 }
 .imgMoon{
-   width: 35%;
+   width: 65px;
 }
 
 footer{
@@ -272,7 +280,6 @@ footer{
     align-items: center;
     height: 50px;
     width: 100%;
-    border: 1px solid white;
     background-color:#0154CE;
     color: white;
     text-align: center;
@@ -286,8 +293,7 @@ footer a{
 }
 .red{
     color: red;
-}
-    
+}   
 .white{
     color: white;
 }
@@ -299,6 +305,17 @@ footer a{
 
 
 @media (min-width: 670px) and (max-width: 900px){
+    .timerBckGrnd{
+        height: 40px;
+    }
+    .timer{
+        max-width: 80%;
+        height: 35px;
+    }
+    .timer p{
+        padding-top: 9px; 
+        font-size: 18px;
+    }
     .snimky{
         flex-flow: row;
         flex-wrap: wrap;
@@ -329,6 +346,17 @@ footer a{
 
 }
 @media (min-width: 900px){
+    .timerBckGrnd{
+        height: 40px;
+    }
+    .timer{
+        max-width: 60%;
+        height: 35px;
+    }
+    .timer p{
+        padding-top: 9px; 
+        font-size: 18px;
+    }
     .snimky{
         flex-flow: row;
         flex-wrap: wrap;

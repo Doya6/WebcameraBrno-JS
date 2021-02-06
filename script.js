@@ -102,7 +102,9 @@ new Vue({
 		window: {
 			width: 0,
 			height: 0
-		  }
+		},
+
+		showProvozovatel: true
 
 	},
 
@@ -110,12 +112,12 @@ new Vue({
 		this.fetchDatumCas();
 		this.fromXLM();
 		window.addEventListener('resize', this.handleResize);
-    	this.handleResize();
+		this.handleResize();
 		//this.fetchSunAPIdate();
 	},
 	destroyed() {
-        window.removeEventListener('resize', this.handleResize);
-    },
+		window.removeEventListener('resize', this.handleResize);
+	},
 	mounted: function () {
 		this.loadMap();
 
@@ -169,7 +171,7 @@ new Vue({
 			this.window.height = window.innerHeight;
 		},
 
-		showBig(index){
+		showBig(index) {
 			this.imgIndex = index;
 			this.show = true;
 		},
@@ -314,6 +316,9 @@ new Vue({
 			this.kamera3 = false;
 			this.kamera4 = false;
 		},
+		showProvozovatel(){
+			this.showProvozovatel = !this.showProvozovatel;
+		},
 
 		fromXLM() {
 			axios.get('weewx/rss.xml')
@@ -373,45 +378,6 @@ new Vue({
 
 				});
 		},
-
-		/*fetchSunAPIdate() {
-			fetch('sunAPI.txt')
-				.then(response => response.text())
-				.then(text => console.log(text))
-		},*/
-
-		/*sunAPI() {
-			//if (this.sunAPIdate = Date())
-			//const API_KEY = '88f38649574f4d4d85fefb5012c72a2e';
-
-			//const API = `https://api.ipgeolocation.io/astronomy?apiKey=${API_KEY}&lat=49.2034436&lng=16.6069339`;
-			//fetch(API).then(response => response.data())
-			//.then(data => console.log(data))
-			
-			var today = new Date().toISOString();
-			const lat = 49.2034436;
-			const lng = 16.6069339;
-			fetch(`https://api.stormglass.io/v2/astronomy/point?lat=${lat}&lng=${lng}`, {
-				headers: {
-					'Authorization': '1c2f981a-04cf-11eb-8aa5-0242ac130002-1c2f98ce-04cf-11eb-8aa5-0242ac130002'
-				}
-			}).then((response) => response.json())
-				.then((jsonData) => {
-					console.log(jsonData);
-				}
-			);
-		}*/
-
-
-
-		//		resized() {
-		//			if (this.onMobile){
-		//			this.setCamera2();
-		//			}
-		//			if (!this.onMobile){
-		//			this.setCamerasOn();
-		//			}
-		//		}
 
 	}
 
